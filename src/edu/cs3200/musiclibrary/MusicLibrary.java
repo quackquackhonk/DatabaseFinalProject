@@ -1,3 +1,5 @@
+package edu.cs3200.musiclibrary;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -5,7 +7,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 /**
- * Main class for running the MusicLibrary database. Holds functions for running, as well as
+ * Main class for running the edu.cs3200.musiclibrary.MusicLibrary database. Holds functions for running, as well as
  * calling server-side procedures and functions.
  */
 public class MusicLibrary {
@@ -77,11 +79,42 @@ public class MusicLibrary {
     Connection conn = null;
     try {
       conn = this.getConnection();
-      System.out.println("Connected to database");
+      System.out.println("Connected to database: " + DB_NAME);
     } catch (SQLException e) {
       System.out.println("ERROR: Could not connect to the database");
       e.printStackTrace();
       return;
     }
+
+    // Loop until the user logsout
+    while(true) {
+      System.out.print("$> ");
+      switch(scan.nextLine().toLowerCase()) {
+        case "logout":
+          this.logout(conn);
+        case "help":
+          System.out.println(MusicLibraryCommand.helpInformation());
+          break;
+        default:
+          System.out.println("Invalid command, enter a valid command or type \"help\" for a list " +
+                  "of commands.");
+          break;
+      }
+    }
+
+
+  }
+
+  /**
+   * Closes the connection and ends the application.
+   *
+   * @param conn the connection to close.
+   * @throws SQLException if closing the connection fails.
+   */
+  private void logout(Connection conn) throws SQLException {
+    System.out.println("Closing connection...");
+    conn.close();
+    System.out.println("Application ending.");
+    System.exit(0);
   }
 }
