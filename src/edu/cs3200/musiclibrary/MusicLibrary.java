@@ -89,20 +89,32 @@ public class MusicLibrary {
     // Loop until the user logsout
     while(true) {
       System.out.print("$> ");
-      switch(scan.nextLine().toLowerCase()) {
+      String command = scan.nextLine().toLowerCase();
+      switch(command) {
         case "logout":
           this.logout(conn);
         case "help":
           System.out.println(MusicLibraryCommand.helpInformation());
           break;
         default:
+
+          if (MusicLibraryCommand.isCommand(command)) {
+            this.processCommand(command);
+            break;
+          }
           System.out.println("Invalid command, enter a valid command or type \"help\" for a list " +
                   "of commands.");
           break;
       }
     }
+  }
 
-
+  /**
+   * Processes the given valid command from the command line
+   * @param command the command to process
+   */
+  private void processCommand(String command) {
+    System.out.println(command);
   }
 
   /**

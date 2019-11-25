@@ -3,7 +3,42 @@ package edu.cs3200.musiclibrary;
 import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 
 public enum MusicLibraryCommand {
-  ADD, REMOVE, UPDATE, CREATE, DELETE, LIKE, UNLIKE;
+  // TODO: colors would be fun
+  ADD("add"), REMOVE("rmv"), UPDATE("upd"),
+  CREATE("crt"), DELETE("del"), LIKE("like"),
+  UNLIKE("unlike"), SHOW("show");
+
+  private String cmd; // command line command for the particular enum
+
+  /**
+   * Constructor for this enum.
+   * @param cmd the command for the enum.
+   */
+  MusicLibraryCommand(String cmd) {
+    this.cmd = cmd;
+  }
+
+  /**
+   * Get the command line input for this enum.
+   * @return this.cmd
+   */
+  public String getCmd() {
+    return this.cmd;
+  }
+
+  /**
+   * determines if the given string is a valid command line command.
+   * @param s the string to check.
+   * @return is s a valid command line command.
+   */
+  public static boolean isCommand(String s) {
+    for (MusicLibraryCommand c : values()) {
+      if (s.equalsIgnoreCase(c.getCmd())) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   public static String helpInformation() {
     StringBuilder out = new StringBuilder();
@@ -20,21 +55,23 @@ public enum MusicLibraryCommand {
         return "add [song|artist|album]: adds a tuple in the database corresponding to the " +
                 "desired type";
       case REMOVE:
-        return "rmv [song|artist|album] <id>: removes the data item of the given type that has " +
-                "the specified id";
+        return "remove [song|artist|album] <name>: removes the data item of the given type that " +
+                "has the specified id";
       case UPDATE:
-        return "upd [song|artist|album] <id> <column_name> <new_value>: updates specified field " +
-                "of the data item with the desired type and specified id";
+        return "update [song|artist|album] <id> <column_name> <new_value>: updates specified " +
+                "field of the data item with the desired type and specified id";
       case CREATE:
-        return "crt [user|playlist] <args>: creates a user or a playlist with the specified " +
+        return "create [user|playlist] <args>: creates a user or a playlist with the specified " +
                 "arguments";
       case DELETE:
-        return "del [user|playlist] <id>: deletes the user or playlist with the specified id and " +
-                "updates the database accordingly";
+        return "delete [user|playlist] <id>: deletes the user or playlist with the specified id " +
+                "and updates the database accordingly";
       case LIKE:
-        return "like <user> <song>: adds the given song to the user's liked songs";
+        return "like <user> <song>: adds the given song to the user's liked songs.";
       case UNLIKE:
         return "unlike <user> <song>: unlikes the given song for the specified user.";
+      case SHOW:
+        return "show [all|user|artist] [song|playlist|album]: displays requested information.";
       default:
         return "Not a valid command";
     }
