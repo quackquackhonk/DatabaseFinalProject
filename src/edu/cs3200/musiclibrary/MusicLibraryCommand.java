@@ -4,8 +4,8 @@ import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 
 public enum MusicLibraryCommand {
   // TODO: colors would be fun
-  ADD("add"), REMOVE("rmv"), UPDATE("upd"),
-  CREATE("crt"), DELETE("del"), LIKE("like"),
+  ADD("add"), REMOVE("remove"), UPDATE("update"),
+  CREATE("create"), DELETE("delete"), LIKE("like"),
   UNLIKE("unlike"), SHOW("show");
 
   private String cmd; // command line command for the particular enum
@@ -32,12 +32,28 @@ public enum MusicLibraryCommand {
    * @return is s a valid command line command.
    */
   public static boolean isCommand(String s) {
+    s = s.toLowerCase();
     for (MusicLibraryCommand c : values()) {
-      if (s.equalsIgnoreCase(c.getCmd())) {
+      if (s.startsWith(c.getCmd())) {
         return true;
       }
     }
     return false;
+  }
+
+  /**
+   * Returns the correct MusicLibraryCommand given the String prefix
+   * @param pre the command-line prefix
+   * @return a MusicLibraryCommand, null if the prefix is invalid.
+   */
+  public static MusicLibraryCommand commandFromPrefix(String pre) {
+    for (MusicLibraryCommand c : values()) {
+      if (c.getCmd().equalsIgnoreCase(pre)) {
+        return c;
+      }
+    }
+
+    return null;
   }
 
   public static String helpInformation() {
@@ -71,7 +87,8 @@ public enum MusicLibraryCommand {
       case UNLIKE:
         return "unlike <user> <song>: unlikes the given song for the specified user.";
       case SHOW:
-        return "show [all|user|artist] [song|playlist|album]: displays requested information.";
+        return "show [all|user|artist] [song|playlist|album|label]: displays requested " +
+                "information.";
       default:
         return "Not a valid command";
     }

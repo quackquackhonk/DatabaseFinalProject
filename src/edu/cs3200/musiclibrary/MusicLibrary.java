@@ -6,6 +6,16 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Scanner;
 
+import edu.cs3200.musiclibrary.operations.AddOperation;
+import edu.cs3200.musiclibrary.operations.CreateOperation;
+import edu.cs3200.musiclibrary.operations.DeleteOperation;
+import edu.cs3200.musiclibrary.operations.LikeOperation;
+import edu.cs3200.musiclibrary.operations.MusicLibraryOperation;
+import edu.cs3200.musiclibrary.operations.RemoveOperation;
+import edu.cs3200.musiclibrary.operations.ShowOperation;
+import edu.cs3200.musiclibrary.operations.UnlikeOperation;
+import edu.cs3200.musiclibrary.operations.UpdateOperation;
+
 /**
  * Main class for running the edu.cs3200.musiclibrary.MusicLibrary database. Holds functions for running, as well as
  * calling server-side procedures and functions.
@@ -35,7 +45,7 @@ public class MusicLibrary {
   /**
    * The name of the database we are testing with (this default is installed with MySQL)
    */
-  private final String DB_NAME = "lotrfinal";
+  private final String DB_NAME = "music_final_project";
 
   /**
    * Get a new database connection
@@ -97,7 +107,6 @@ public class MusicLibrary {
           System.out.println(MusicLibraryCommand.helpInformation());
           break;
         default:
-
           if (MusicLibraryCommand.isCommand(command)) {
             this.processCommand(command);
             break;
@@ -114,7 +123,46 @@ public class MusicLibrary {
    * @param command the command to process
    */
   private void processCommand(String command) {
-    System.out.println(command);
+    Connection conn = null;
+    try {
+      conn = this.getConnection();
+    } catch (SQLException e) {
+      System.out.println("Failure to obtain connection when processing command");
+      return;
+    }
+    String prefix = command.split(" ")[0];
+    System.out.println(prefix);
+    MusicLibraryOperation op;
+    switch (MusicLibraryCommand.commandFromPrefix(prefix)) {
+      case ADD:
+        op = new AddOperation(command, conn);
+        break;
+      case REMOVE:
+        op = new RemoveOperation(command, conn);
+        break;
+      case UPDATE:
+        op = new UpdateOperation(command, conn);
+        break;
+      case CREATE:
+        op = new CreateOperation(command, conn);
+        break;
+      case DELETE:
+        op = new DeleteOperation(command, conn);
+        break;
+      case LIKE:
+        op = new LikeOperation(command, conn);
+        break;
+      case UNLIKE:
+        op = new UnlikeOperation(command, conn);
+        break;
+      case SHOW:
+        op = new ShowOperation(command, conn);
+        break;
+      default:
+        return;
+    }
+    // run the operation
+    op.run();
   }
 
   /**
