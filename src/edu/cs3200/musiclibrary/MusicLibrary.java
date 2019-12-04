@@ -22,6 +22,8 @@ import edu.cs3200.musiclibrary.operations.UpdateOperation;
  */
 public class MusicLibrary {
 
+  private Scanner scan = new Scanner(System.in);
+
   /**
    * The name of the MySQL account to use (or empty for anonymous)
    */
@@ -73,7 +75,6 @@ public class MusicLibrary {
     // prompt the user for login information
     String inputUser = "";
     String inputPassword = "";
-    Scanner scan = new Scanner(System.in);
     System.out.print("Enter a username: ");
     inputUser = scan.nextLine();
     System.out.print("Enter a password: ");
@@ -132,6 +133,10 @@ public class MusicLibrary {
     }
     String prefix = command.split(" ")[0];
     MusicLibraryOperation op;
+    MusicLibraryCommand oper = MusicLibraryCommand.commandFromPrefix(prefix);
+    if (oper == null) {
+      return;
+    }
     switch (MusicLibraryCommand.commandFromPrefix(prefix)) {
       case ADD:
         op = new AddOperation(command, conn);
@@ -149,13 +154,13 @@ public class MusicLibrary {
         op = new DeleteOperation(command, conn);
         break;
       case LIKE:
-        op = new LikeOperation(command, conn);
+        op = new LikeOperation(command, conn, scan);
         break;
       case UNLIKE:
         op = new UnlikeOperation(command, conn);
         break;
       case SHOW:
-        op = new ShowOperation(command, conn);
+        op = new ShowOperation(command, conn, scan);
         break;
       default:
         return;

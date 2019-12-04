@@ -1,4 +1,5 @@
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import edu.cs3200.musiclibrary.MusicLibrary;
 
@@ -19,5 +20,4 @@ public class Main {
       System.out.println(e.getMessage());
     }
   }
-
 }

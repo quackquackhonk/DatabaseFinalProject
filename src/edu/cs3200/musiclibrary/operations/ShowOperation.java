@@ -12,9 +12,6 @@ import java.util.Scanner;
  */
 public class ShowOperation extends AbstractOperation implements MusicLibraryOperation {
 
-  private String cmd;
-  private Connection conn;
-
   /**
    * Constructs an Operation.
    *
@@ -30,8 +27,9 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
   public void run() {
     try {
       if (this.args.length < 3) {
-        System.out.println(this.cmd + " does not have enough arguments. Needed 2, found "
+        System.out.println(command + " does not have enough arguments. Needed 2, found "
                 + (this.args.length - 1));
+        return;
       }
       // getting type to return
       switch (this.args[1].toLowerCase()) {
@@ -87,10 +85,12 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
    * Shows all users in the database.
    */
   private void showAllUsers() throws SQLException {
-    // prepare the procedure call
-    String prepCall = "CALL music_final_project.read_all_users()";
+    String prepCall = "CALL music_final_project.read_all_user()";
+    if (conn ==  null) {
+      System.out.println("asdas");
+      return;
+    }
     PreparedStatement showAllUsersStatement = conn.prepareStatement(prepCall);
-
     // execute the query;
     ResultSet usersRS = showAllUsersStatement.executeQuery();
     while (usersRS.next()) {
@@ -178,7 +178,6 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
       toPrint.append(", Peak Rating: ").append(songs.getString("song_peaked_rating"));
       System.out.println(toPrint.toString());
     }
-    // read_all_songs
   }
 
   /**
@@ -200,7 +199,6 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
               "username");
       return;
     }
-
     String prepCall = "CALL read_users_liked(?)";
     PreparedStatement usersLikedSongsStatement = conn.prepareStatement(prepCall);
     usersLikedSongsStatement.clearParameters();
@@ -209,11 +207,8 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
     ResultSet likedSongs = usersLikedSongsStatement.executeQuery();
     while (likedSongs.next()) {
       StringBuilder toPrint = new StringBuilder();
-      toPrint.append("Title: ").append(likedSongs.getString("song_title"));
-      toPrint.append(", Artist: ").append(likedSongs.getString("song_artist"));
-      toPrint.append(", Genre: ").append(likedSongs.getString("song_genre"));
-      toPrint.append(", Length: ").append(likedSongs.getInt("song_length"));
-      toPrint.append(", Peak Rating: ").append(likedSongs.getString("song_peaked_rating"));
+      toPrint.append("Title: ").append(likedSongs.getString("likedSong_song_title"));
+      toPrint.append(", Artist: ").append(likedSongs.getString("likedSong_song_artist"));
       System.out.println(toPrint.toString());
     }
 

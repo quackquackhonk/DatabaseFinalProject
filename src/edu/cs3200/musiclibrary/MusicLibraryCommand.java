@@ -52,7 +52,6 @@ public enum MusicLibraryCommand {
         return c;
       }
     }
-
     return null;
   }
 
