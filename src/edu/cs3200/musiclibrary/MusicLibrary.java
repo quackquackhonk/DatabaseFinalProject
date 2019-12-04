@@ -139,7 +139,7 @@ public class MusicLibrary {
     }
     switch (MusicLibraryCommand.commandFromPrefix(prefix)) {
       case ADD:
-        op = new AddOperation(command, conn);
+        op = new AddOperation(command, conn, scan);
         break;
       case REMOVE:
         op = new RemoveOperation(command, conn);

@@ -4,8 +4,8 @@
     <list default="true" id="099e9f50-8193-4362-b136-95b3e9c867ba" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/MusicLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/MusicLibrary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/AddOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/AddOperation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/LikeOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/LikeOperation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/UnlikeOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/UnlikeOperation.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -80,7 +80,7 @@
       <workItem from="1575315636301" duration="11000" />
       <workItem from="1575324580250" duration="320000" />
       <workItem from="1575398837467" duration="10000" />
-      <workItem from="1575486941980" duration="7485000" />
+      <workItem from="1575486941980" duration="8328000" />
     </task>
     <task id="LOCAL-00001" summary="added .gitignore">
       <created>1574543029769</created>
@@ -131,7 +131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575494149993</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Finished unliking songs">
+      <created>1575494503061</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1575494503061</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -158,6 +165,7 @@
     <MESSAGE value="Added ability to like and unlike songs" />
     <MESSAGE value="Switched over to no song id and added ability to sort songs by columns" />
     <MESSAGE value="finished like operations" />
-    <option name="LAST_COMMIT_MESSAGE" value="finished like operations" />
+    <MESSAGE value="Finished unliking songs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished unliking songs" />
   </component>
 </project>

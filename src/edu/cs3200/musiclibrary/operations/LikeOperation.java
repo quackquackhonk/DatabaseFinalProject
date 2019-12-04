@@ -173,5 +173,4 @@ public class LikeOperation extends AbstractOperation implements MusicLibraryOper
     return false;
   }
 
-
 }
