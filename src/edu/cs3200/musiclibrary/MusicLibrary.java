@@ -131,7 +131,6 @@ public class MusicLibrary {
       return;
     }
     String prefix = command.split(" ")[0];
-    System.out.println(prefix);
     MusicLibraryOperation op;
     switch (MusicLibraryCommand.commandFromPrefix(prefix)) {
       case ADD:

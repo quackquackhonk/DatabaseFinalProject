@@ -1,42 +1,48 @@
 package edu.cs3200.musiclibrary.operations;
 
-import com.mysql.cj.protocol.Resultset;
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
 
-import javax.xml.transform.Result;
 
 /**
  * Operation to handle the showing (reading) of data from the database.
  */
-public class ShowOperation implements MusicLibraryOperation {
+public class ShowOperation extends AbstractOperation implements MusicLibraryOperation {
 
   private String cmd;
   private Connection conn;
 
-  public ShowOperation(String command, Connection conn) {
-    this.cmd = command;
-    this.conn = conn;
+  /**
+   * Constructs an Operation.
+   *
+   * @param command the command
+   * @param conn    the connection to the DB.
+   * @param scan    the user input scanner.
+   */
+  public ShowOperation(String command, Connection conn, Scanner scan) {
+    super(command, conn, scan);
   }
 
   @Override
   public void run() {
     try {
-      String[] cmdSplit = cmd.split(" ");
-      if (cmdSplit.length < 3) {
+      if (this.args.length < 3) {
         System.out.println(this.cmd + " does not have enough arguments. Needed 2, found "
-                + (cmdSplit.length - 1));
+                + (this.args.length - 1));
       }
       // getting type to return
-      switch (cmdSplit[1].toLowerCase()) {
+      switch (this.args[1].toLowerCase()) {
         case "all":
-          switch (cmdSplit[2].toLowerCase()) {
+          switch (this.args[2].toLowerCase()) {
             case "song":
-              this.showAllSongs();
+              if (this.args.length >= 5 && this.args[3].equals("--orderby")) {
+                this.showAllSongs(this.args[4]);
+              } else {
+                this.showAllSongs("title");
+              }
               break;
             case "artist":
               this.showAllArtist();
@@ -48,28 +54,28 @@ public class ShowOperation implements MusicLibraryOperation {
               this.showAllUsers();
               break;
             default:
-              System.out.println(cmdSplit[2] + " is not a valid identifier for keyword \"all\"");
+              System.out.println(this.args[2] + " is not a valid identifier for keyword \"all\"");
               return;
           }
           break;
         case "user":
           // check if a username is given.
-          if (cmdSplit.length != 4) {
+          if (this.args.length != 4) {
             System.out.println("Need 4 arguments to display information about a particular user");
           } else {
-            switch (cmdSplit[2]) {
+            switch (this.args[2]) {
               case "song":
-                this.showUserLikedSongs(cmdSplit[3]);
+                this.showUserLikedSongs(this.args[3]);
               case "playlist":
                 // TODO: add ability to display user playlists
-                this.showUserPlaylists(cmdSplit[3]);
+                this.showUserPlaylists(this.args[3]);
             }
           }
           break;
         case "artist": // TODO: finish functionality for reading artist data
           break;
         default:
-          System.out.println(cmdSplit[1] + " is not a valid second argument");
+          System.out.println(this.args[1] + " is not a valid second argument");
       }
     } catch (SQLException e) {
       System.out.println("Exception occurred when reading from database.");
@@ -139,17 +145,33 @@ public class ShowOperation implements MusicLibraryOperation {
 
   /**
    * Displays all the songs in the database.
+   * @param order the desired ordering of the song, default is by title.
    */
-  private void showAllSongs() throws SQLException {
-    String prepCall = "CALL read_all_songs()";
+  private void showAllSongs(String order) throws SQLException {
+    String prepCall = "CALL read_songs_by_title()";
+    switch (order) {
+      case "artist":
+        prepCall = "CALL read_songs_by_artist()";
+        break;
+      case "genre":
+        prepCall = "CALL read_songs_by_genre()";
+        break;
+      case "length":
+        prepCall = "CALL read_songs_by_length()";
+        break;
+      case "rating":
+        prepCall = "CALL read_songs_by_rating()";
+        break;
+      default:
+        break;
+    }
     PreparedStatement readAllSongStatement = conn.prepareStatement(prepCall);
 
     ResultSet songs = readAllSongStatement.executeQuery();
 
     while (songs.next()) {
       StringBuilder toPrint = new StringBuilder();
-      toPrint.append("ID: ").append(songs.getString("song_id"));
-      toPrint.append(", Title: ").append(songs.getString("song_title"));
+      toPrint.append("Title: ").append(songs.getString("song_title"));
       toPrint.append(", Artist: ").append(songs.getString("song_artist"));
       toPrint.append(", Genre: ").append(songs.getString("song_genre"));
       toPrint.append(", Length: ").append(songs.getInt("song_length"));
@@ -187,8 +209,7 @@ public class ShowOperation implements MusicLibraryOperation {
     ResultSet likedSongs = usersLikedSongsStatement.executeQuery();
     while (likedSongs.next()) {
       StringBuilder toPrint = new StringBuilder();
-      toPrint.append("ID: ").append(likedSongs.getString("likedSong_song"));
-      toPrint.append(", Title: ").append(likedSongs.getString("song_title"));
+      toPrint.append("Title: ").append(likedSongs.getString("song_title"));
       toPrint.append(", Artist: ").append(likedSongs.getString("song_artist"));
       toPrint.append(", Genre: ").append(likedSongs.getString("song_genre"));
       toPrint.append(", Length: ").append(likedSongs.getInt("song_length"));

@@ -68,6 +68,9 @@ public enum MusicLibraryCommand {
   private static String getHelpInfo(MusicLibraryCommand command) {
     switch (command) {
       case ADD:
+        StringBuilder ret = new StringBuilder();
+        ret.append("Command Keyword: add:").append("\n");
+        ret.append("Example: add --type <type>").append("\n");
         return "add [song|artist|album]: adds a tuple in the database corresponding to the " +
                 "desired type";
       case REMOVE:
@@ -80,8 +83,8 @@ public enum MusicLibraryCommand {
         return "create [user|playlist] <args>: creates a user or a playlist with the specified " +
                 "arguments";
       case DELETE:
-        return "delete [user|playlist] <id>: deletes the user or playlist with the specified id " +
-                "and updates the database accordingly";
+        return "delete [user|playlist] <name>: deletes the user or playlist with the specified id"
+                + " and updates the database accordingly";
       case LIKE:
         return "like <user> <song>: adds the given song to the user's liked songs.";
       case UNLIKE:
