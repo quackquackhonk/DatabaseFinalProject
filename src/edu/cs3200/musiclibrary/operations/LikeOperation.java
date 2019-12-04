@@ -35,8 +35,8 @@ public class LikeOperation extends AbstractOperation implements MusicLibraryOper
       String artist = this.removeQuotes(this.args[3]);
 
       if (!songExists(title, artist)) {
-       System.out.println(title + " by " + artist + " is not a song in the database");
-       return;
+        System.out.println(title + " by " + artist + " is not a song in the database");
+        return;
       }
 
       if (likeSongForUser(userId, title, artist)) {
@@ -45,7 +45,6 @@ public class LikeOperation extends AbstractOperation implements MusicLibraryOper
       } else {
         System.out.println("Unable to add song " + title + ". User already likes that song.");
       }
-
     } catch (SQLException e) {
       System.out.println("Error occurred when updating database.");
       e.printStackTrace();

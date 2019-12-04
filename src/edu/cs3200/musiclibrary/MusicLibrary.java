@@ -157,7 +157,7 @@ public class MusicLibrary {
         op = new LikeOperation(command, conn, scan);
         break;
       case UNLIKE:
-        op = new UnlikeOperation(command, conn);
+        op = new UnlikeOperation(command, conn, scan);
         break;
       case SHOW:
         op = new ShowOperation(command, conn, scan);
