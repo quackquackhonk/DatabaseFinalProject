@@ -51,6 +51,9 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
             case "user":
               this.showAllUsers();
               break;
+            case "album":
+              this.showAllAlbums();
+              break;
             default:
               System.out.println(this.args[2] + " is not a valid identifier for keyword \"all\"");
               return;
@@ -85,7 +88,7 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
    * Shows all users in the database.
    */
   private void showAllUsers() throws SQLException {
-    String prepCall = "CALL music_final_project.read_all_user()";
+    String prepCall = "CALL music_final_project.read_users()";
     if (conn ==  null) {
       System.out.println("asdas");
       return;
@@ -107,15 +110,13 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
    * Shows all the labels.
    */
   private void showAllLabels() throws SQLException {
-    String prepCall = "CALL music_final_project.read_all_labels()";
+    String prepCall = "CALL music_final_project.read_labels()";
     PreparedStatement showAllLabelStatement = conn.prepareStatement(prepCall);
 
     ResultSet labels = showAllLabelStatement.executeQuery();
     while(labels.next()) {
       StringBuilder toPrint = new StringBuilder();
-      toPrint.append("ID: ");
-      toPrint.append(labels.getString("label_id"));
-      toPrint.append(", Label Name: ");
+      toPrint.append("Label Name: ");
       toPrint.append(labels.getString("label_name"));
       System.out.println(toPrint.toString());
     }
@@ -125,7 +126,7 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
    * Displays all artist information.
    */
   private void showAllArtist() throws SQLException {
-    String prepCall = "CALL music_final_project.read_all_artists()";
+    String prepCall = "CALL music_final_project.read_artists()";
     PreparedStatement showAllArtistStatement = conn.prepareStatement(prepCall);
 
     ResultSet artists = showAllArtistStatement.executeQuery();
@@ -136,8 +137,7 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
       toPrint.append(", Name: ");
       toPrint.append(artists.getString("artist_name"));
       toPrint.append(", Label: ");
-      int labelid = artists.getInt("artist_label");
-      toPrint.append(this.getLabelName(labelid, conn));
+      toPrint.append(artists.getString("artist_label"));
       System.out.println(toPrint.toString());
     }
     // read_all_artists
@@ -181,6 +181,22 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
   }
 
   /**
+   * Prints out all the albums.
+   */
+  private void showAllAlbums() throws SQLException {
+    String prepCall = "CALL read_albums()";
+    PreparedStatement readAlbums = conn.prepareStatement(prepCall);
+    ResultSet albums = readAlbums.executeQuery();
+    while (albums.next()) {
+      StringBuilder out = new StringBuilder();
+      out.append("ID: ").append(albums.getInt("album_id"));
+      out.append(", Title: ").append(albums.getString("album_name"));
+      out.append(", Artist: ").append(albums.getString("album_artist"));
+      System.out.println(out.toString());
+    }
+  }
+
+  /**
    * Returns all of a users songs
    * @param user the username
    */
@@ -214,39 +230,4 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
 
   }
 
-  /**
-   * Gets the user id of the given user.
-   * @param user the username
-   * @return the user id of the given user, -1 if invalid user.
-   */
-  private int getUserId(String user) throws SQLException {
-    String prepCall = "CALL get_user_id(?)";
-    PreparedStatement getUserIdStatement = conn.prepareStatement(prepCall);
-    getUserIdStatement.clearParameters();
-    getUserIdStatement.setString(1, user);
-
-    ResultSet userId = getUserIdStatement.executeQuery();
-    if (userId.next()) {
-      return userId.getInt("listener_id");
-    }
-    return -1;
-  }
-
-  /**
-   * Gets a label name from a label id.
-   * @param id the label id
-   * @return the label name
-   */
-  private String getLabelName(int id, Connection conn) throws SQLException {
-    String prepCall = "CALL get_label_name(?)";
-    PreparedStatement getLabelNameStatement = conn.prepareStatement(prepCall);
-    getLabelNameStatement.clearParameters();
-    getLabelNameStatement.setInt(1, id);
-
-    ResultSet idRS = getLabelNameStatement.executeQuery();
-    if (idRS.next()) {
-      return idRS.getString("label_name");
-    }
-    return null;
-  }
 }

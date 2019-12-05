@@ -52,7 +52,7 @@ public class MusicLibrary {
   /**
    * Get a new database connection
    *
-   * @return
+   * @return a connection to the database.
    * @throws SQLException
    */
   public Connection getConnection() throws SQLException {
@@ -72,19 +72,19 @@ public class MusicLibrary {
    * Connects to the database and does what the assignment wants me to do.
    */
   public void run() throws SQLException {
-    // prompt the user for login information
-    String inputUser = "";
-    String inputPassword = "";
-    System.out.print("Enter a username: ");
-    inputUser = scan.nextLine();
-    System.out.print("Enter a password: ");
-    inputPassword = scan.nextLine();
-    if (inputUser.equals(this.USER_NAME) && inputPassword.equals(this.PASSWORD)) {
-      System.out.println("Login Successful!");
-    } else {
-      System.out.println("Invalid login credentials.");
-      System.exit(-1);
-    }
+//    // prompt the user for login information
+//    String inputUser = "";
+//    String inputPassword = "";
+//    System.out.print("Enter a username: ");
+//    inputUser = scan.nextLine();
+//    System.out.print("Enter a password: ");
+//    inputPassword = scan.nextLine();
+//    if (inputUser.equals(this.USER_NAME) && inputPassword.equals(this.PASSWORD)) {
+//      System.out.println("Login Successful!");
+//    } else {
+//      System.out.println("Invalid login credentials.");
+//      System.exit(-1);
+//    }
 
     // Connect to MySQL
     Connection conn = null;
@@ -148,7 +148,7 @@ public class MusicLibrary {
         op = new UpdateOperation(command, conn);
         break;
       case CREATE:
-        op = new CreateOperation(command, conn);
+        op = new CreateOperation(command, conn, scan);
         break;
       case DELETE:
         op = new DeleteOperation(command, conn);
