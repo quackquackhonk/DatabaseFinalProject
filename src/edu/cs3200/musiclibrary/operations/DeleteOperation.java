@@ -69,7 +69,7 @@ public class DeleteOperation extends AbstractOperation implements MusicLibraryOp
             System.out.print("$> ");
             String un = scan.nextLine();
             if (this.getUserId(un) != -1) {
-              this.deleteUser(this.getUserId(un));
+              this.deleteUser(un);
               System.out.println("Successfully deleted user with username " + un + " from the " +
                       "database");
             } else {
@@ -127,13 +127,13 @@ public class DeleteOperation extends AbstractOperation implements MusicLibraryOp
   /**
    * Deletes a user from the database.
    *
-   * @param userId the id of the user to delete.
+   * @param userName the id of the user to delete.
    */
-  private void deleteUser(int userId) throws SQLException {
+  private void deleteUser(String userName) throws SQLException {
     String prepCall = "CALL delete_user(?)";
     PreparedStatement deleteUserStatement = conn.prepareStatement(prepCall);
     deleteUserStatement.clearParameters();
-    deleteUserStatement.setInt(1, userId);
+    deleteUserStatement.setString(1, userName);
     deleteUserStatement.executeQuery();
   }
 

@@ -141,7 +141,7 @@ public class MusicLibrary {
         op = new RemoveOperation(command, conn);
         break;
       case UPDATE:
-        op = new UpdateOperation(command, conn);
+        op = new UpdateOperation(command, conn, scan);
         break;
       case CREATE:
         op = new CreateOperation(command, conn, scan);

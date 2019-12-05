@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.xml.transform.Result;
+
 /**
  * Abstract class, holding information for the songs.
  */
@@ -102,6 +104,27 @@ public abstract class AbstractOperation implements MusicLibraryOperation {
     ResultSet allLabels = labels.executeQuery();
     while (allLabels.next()) {
       if (allLabels.getString("label_name").equalsIgnoreCase(name)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Determines if the given album exists
+   * @param name the name of the album
+   * @param artist the artist of the album
+   * @return does the album exist?
+   * @throws SQLException error happened when reading.
+   */
+  protected boolean albumExists(String name, String artist) throws SQLException {
+    String prepCall = "SELECT * FROM album";
+    PreparedStatement albumStatement = conn.prepareStatement(prepCall);
+    ResultSet albums = albumStatement.executeQuery();
+
+    while (albums.next()) {
+      if (name.equalsIgnoreCase(albums.getString("album_name"))
+              && artist.equalsIgnoreCase(albums.getString("album_artist"))) {
         return true;
       }
     }

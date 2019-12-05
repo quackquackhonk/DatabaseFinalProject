@@ -73,7 +73,27 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
             }
           }
           break;
-        case "artist": // TODO: finish functionality for reading artist data
+        case "artist":
+          this.args = this.getCommandArgs(this.command);
+          if (this.args.length < 4) {
+            System.out.println("Need 4 arguments to display information about a particular artist");
+            return;
+          }
+          String artist = this.removeQuotes(this.args[3]);
+          if (!this.artistExists(artist)) {
+            System.out.println("Unable to display artist albums: artist does not exist");
+          }
+          switch (this.args[2].toLowerCase()) {
+            case "album":
+              this.showArtistAlbums(artist);
+              break;
+            case "song":
+              this.showArtistSongs(artist);
+              break;
+            default:
+              System.out.println(this.args[2] + " is not a valid identifier to read artist data " +
+                      "from");
+          }
           break;
         default:
           System.out.println(this.args[1] + " is not a valid second argument");
@@ -230,7 +250,37 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
       toPrint.append(", Artist: ").append(likedSongs.getString("likedSong_song_artist"));
       System.out.println(toPrint.toString());
     }
+  }
 
+  private void showArtistAlbums(String artist) throws SQLException {
+    String prepCall = "CALL read_albums_with_artist(?)";
+    PreparedStatement artistAlbums = conn.prepareStatement(prepCall);
+    artistAlbums.clearParameters();
+    artistAlbums.setString(1, artist);
+    ResultSet albums = artistAlbums.executeQuery();
+    while (albums.next()) {
+      StringBuilder out = new StringBuilder();
+      out.append("ID: ").append(albums.getInt("album_id"));
+      out.append(", Title: ").append(albums.getString("album_name"));
+      System.out.println(out.toString());
+    }
+  }
+
+  private void showArtistSongs(String artist) throws SQLException {
+    String prepCall = "Call read_songs_with_artist(?)";
+    PreparedStatement artistSongs = conn.prepareStatement(prepCall);
+    artistSongs.clearParameters();
+    artistSongs.setString(1, artist);
+    ResultSet songs = artistSongs.executeQuery();
+    while (songs.next()) {
+      StringBuilder toPrint = new StringBuilder();
+      toPrint.append("Title: ").append(songs.getString("song_title"));
+      toPrint.append(", Artist: ").append(songs.getString("song_artist"));
+      toPrint.append(", Genre: ").append(songs.getString("song_genre"));
+      toPrint.append(", Length: ").append(songs.getInt("song_length"));
+      toPrint.append(", Peak Rating: ").append(songs.getString("song_peaked_rating"));
+      System.out.println(toPrint.toString());
+    }
   }
 
 }
