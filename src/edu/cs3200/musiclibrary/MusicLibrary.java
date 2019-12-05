@@ -17,8 +17,8 @@ import edu.cs3200.musiclibrary.operations.UnlikeOperation;
 import edu.cs3200.musiclibrary.operations.UpdateOperation;
 
 /**
- * Main class for running the edu.cs3200.musiclibrary.MusicLibrary database. Holds functions for running, as well as
- * calling server-side procedures and functions.
+ * Main class for running the edu.cs3200.musiclibrary.MusicLibrary database. Holds functions for
+ * running, as well as calling server-side procedures and functions.
  */
 public class MusicLibrary {
 
@@ -27,12 +27,12 @@ public class MusicLibrary {
   /**
    * The name of the MySQL account to use (or empty for anonymous)
    */
-  private final String USER_NAME = "root";
+  private String USER_NAME = "root";
 
   /**
    * The password for the MySQL account (or empty for anonymous)
    */
-  private final String PASSWORD = "root";
+  private String PASSWORD = "root";
 
   /**
    * The name of the computer running MySQL
@@ -55,11 +55,11 @@ public class MusicLibrary {
    * @return a connection to the database.
    * @throws SQLException
    */
-  public Connection getConnection() throws SQLException {
+  public Connection getConnection(String user, String pass) throws SQLException {
     Connection conn = null;
     Properties connectionProps = new Properties();
-    connectionProps.put("user", this.USER_NAME);
-    connectionProps.put("password", this.PASSWORD);
+    connectionProps.put("user", user);
+    connectionProps.put("password", pass);
 
     conn = DriverManager.getConnection("jdbc:mysql://"
                     + this.SERVER_NAME + ":" + this.PORT + "/" + this.DB_NAME,
@@ -72,36 +72,31 @@ public class MusicLibrary {
    * Connects to the database and does what the assignment wants me to do.
    */
   public void run() throws SQLException {
-//    // prompt the user for login information
-//    String inputUser = "";
-//    String inputPassword = "";
-//    System.out.print("Enter a username: ");
-//    inputUser = scan.nextLine();
-//    System.out.print("Enter a password: ");
-//    inputPassword = scan.nextLine();
-//    if (inputUser.equals(this.USER_NAME) && inputPassword.equals(this.PASSWORD)) {
-//      System.out.println("Login Successful!");
-//    } else {
-//      System.out.println("Invalid login credentials.");
-//      System.exit(-1);
-//    }
-
-    // Connect to MySQL
+    // prompt the user for login information
+    String inputUser = "";
+    String inputPassword = "";
+    System.out.print("Enter a username: ");
+    inputUser = scan.nextLine();
+    System.out.print("Enter a password: ");
+    inputPassword = scan.nextLine();
     Connection conn = null;
+    // Connect to MySQL
     try {
-      conn = this.getConnection();
+      conn = this.getConnection(inputUser, inputPassword);
       System.out.println("Connected to database: " + DB_NAME);
     } catch (SQLException e) {
-      System.out.println("ERROR: Could not connect to the database");
-      e.printStackTrace();
+      System.out.println("Invalid login information");
       return;
     }
+    // update stored un and pass, for use in other functions.
+    this.USER_NAME = inputUser;
+    this.PASSWORD = inputPassword;
 
     // Loop until the user logsout
-    while(true) {
+    while (true) {
       System.out.print("$> ");
       String command = scan.nextLine().toLowerCase();
-      switch(command) {
+      switch (command) {
         case "logout":
           this.logout(conn);
         case "help":
@@ -121,12 +116,13 @@ public class MusicLibrary {
 
   /**
    * Processes the given valid command from the command line
+   *
    * @param command the command to process
    */
   private void processCommand(String command) {
     Connection conn = null;
     try {
-      conn = this.getConnection();
+      conn = this.getConnection(this.USER_NAME, this.PASSWORD);
     } catch (SQLException e) {
       System.out.println("Failure to obtain connection when processing command");
       return;
@@ -151,7 +147,7 @@ public class MusicLibrary {
         op = new CreateOperation(command, conn, scan);
         break;
       case DELETE:
-        op = new DeleteOperation(command, conn);
+        op = new DeleteOperation(command, conn, scan);
         break;
       case LIKE:
         op = new LikeOperation(command, conn, scan);

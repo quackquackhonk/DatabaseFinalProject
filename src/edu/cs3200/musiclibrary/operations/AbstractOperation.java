@@ -19,9 +19,10 @@ public abstract class AbstractOperation implements MusicLibraryOperation {
 
   /**
    * Constructs an AbstractOperation.
+   *
    * @param command the command
-   * @param conn the connection to the DB.
-   * @param scan the user input scanner.
+   * @param conn    the connection to the DB.
+   * @param scan    the user input scanner.
    */
   public AbstractOperation(String command, Connection conn, Scanner scan) {
     this.command = command;
@@ -32,6 +33,7 @@ public abstract class AbstractOperation implements MusicLibraryOperation {
 
   /**
    * Gets the user id of the given user.
+   *
    * @param user the username
    * @return the user id of the given user, -1 if invalid user.
    */
@@ -50,7 +52,8 @@ public abstract class AbstractOperation implements MusicLibraryOperation {
 
   /**
    * Checks if the given song is in the database.
-   * @param title the title
+   *
+   * @param title  the title
    * @param artist the artist
    * @return is the song in the database
    * @throws SQLException if something goes wrong
@@ -71,7 +74,43 @@ public abstract class AbstractOperation implements MusicLibraryOperation {
   }
 
   /**
+   * Checks if an artist with the given name exists in the database.
+   *
+   * @param name the name to check
+   * @return is there an artist with that name?
+   * @throws SQLException if something goes wrong with the database.
+   */
+  protected boolean artistExists(String name) throws SQLException {
+    String prepCall = "SELECT * FROM artist WHERE artist_name = ?";
+    PreparedStatement exist = conn.prepareStatement(prepCall);
+    exist.clearParameters();
+    exist.setString(1, name);
+    ResultSet artists = exist.executeQuery();
+    return artists.next();
+  }
+
+  /**
+   * Checks if the label with the given name exists.
+   *
+   * @param name the name to check
+   * @return is there a label with that name?
+   * @throws SQLException if something goes wrong reading from the db.
+   */
+  protected boolean labelExists(String name) throws SQLException {
+    String prepCall = "SELECT * FROM label";
+    PreparedStatement labels = conn.prepareStatement(prepCall);
+    ResultSet allLabels = labels.executeQuery();
+    while (allLabels.next()) {
+      if (allLabels.getString("label_name").equalsIgnoreCase(name)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
    * Gets the command arguments based on the tags --title and --artist.
+   *
    * @param command the command to process.
    */
   protected String[] getCommandArgs(String command) {
@@ -87,6 +126,7 @@ public abstract class AbstractOperation implements MusicLibraryOperation {
 
   /**
    * Removes quotes from the start and end of a given string.
+   *
    * @param s the string to check
    * @return the new string
    */
@@ -100,5 +140,20 @@ public abstract class AbstractOperation implements MusicLibraryOperation {
     }
 
     return s;
+  }
+
+  /**
+   * Checks if the given string is a number.
+   *
+   * @param check the string to check.
+   * @return is the string a number?
+   */
+  protected boolean isNumber(String check) {
+    try {
+      Integer.parseInt(check);
+    } catch (NumberFormatException e) {
+      return false;
+    }
+    return true;
   }
 }

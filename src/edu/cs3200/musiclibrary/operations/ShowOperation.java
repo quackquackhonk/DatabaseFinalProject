@@ -89,7 +89,7 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
    */
   private void showAllUsers() throws SQLException {
     String prepCall = "CALL music_final_project.read_users()";
-    if (conn ==  null) {
+    if (conn == null) {
       System.out.println("asdas");
       return;
     }
@@ -114,7 +114,7 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
     PreparedStatement showAllLabelStatement = conn.prepareStatement(prepCall);
 
     ResultSet labels = showAllLabelStatement.executeQuery();
-    while(labels.next()) {
+    while (labels.next()) {
       StringBuilder toPrint = new StringBuilder();
       toPrint.append("Label Name: ");
       toPrint.append(labels.getString("label_name"));
@@ -130,7 +130,7 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
     PreparedStatement showAllArtistStatement = conn.prepareStatement(prepCall);
 
     ResultSet artists = showAllArtistStatement.executeQuery();
-    while(artists.next()) {
+    while (artists.next()) {
       StringBuilder toPrint = new StringBuilder();
       toPrint.append("ID: ");
       toPrint.append(artists.getInt("artist_id"));
@@ -145,6 +145,7 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
 
   /**
    * Displays all the songs in the database.
+   *
    * @param order the desired ordering of the song, default is by title.
    */
   private void showAllSongs(String order) throws SQLException {
@@ -198,6 +199,7 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
 
   /**
    * Returns all of a users songs
+   *
    * @param user the username
    */
   private void showUserPlaylists(String user) {
@@ -206,6 +208,7 @@ public class ShowOperation extends AbstractOperation implements MusicLibraryOper
 
   /**
    * Displays all the liked songs of the given user.
+   *
    * @param user the username of the user to see the songs.
    */
   private void showUserLikedSongs(String user) throws SQLException {

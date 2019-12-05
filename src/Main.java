@@ -1,5 +1,4 @@
 import java.sql.SQLException;
-import java.util.Scanner;
 
 import edu.cs3200.musiclibrary.MusicLibrary;
 
@@ -10,6 +9,7 @@ public class Main {
 
   /**
    * Runs the application.
+   *
    * @param args command line arguments.
    */
   public static void main(String[] args) {

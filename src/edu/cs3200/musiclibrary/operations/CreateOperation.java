@@ -2,7 +2,6 @@ package edu.cs3200.musiclibrary.operations;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -28,7 +27,7 @@ public class CreateOperation extends AbstractOperation implements MusicLibraryOp
     }
 
     try {
-      switch(this.args[1]) {
+      switch (this.args[1]) {
         case "song":
           this.createSong();
           break;
@@ -73,7 +72,7 @@ public class CreateOperation extends AbstractOperation implements MusicLibraryOp
       System.out.println("Enter " + title + "\'s length (in seconds):");
       System.out.print("$> ");
       String len = scan.nextLine();
-      while(!this.isNumber(len)) {
+      while (!this.isNumber(len)) {
         System.out.println(len + " is not a valid length");
         System.out.println("Enter " + title + "\'s length (in seconds)");
         len = scan.nextLine();
@@ -82,7 +81,7 @@ public class CreateOperation extends AbstractOperation implements MusicLibraryOp
       System.out.println("Enter " + title + "\'s peak rating:");
       System.out.print("$> ");
       String rat = scan.nextLine();
-      while(!this.isNumber(rat)) {
+      while (!this.isNumber(rat)) {
         System.out.println(rat + " is not a valid rating");
         System.out.println("Enter " + title + "\'s peak rating:");
         rat = scan.nextLine();
@@ -148,6 +147,9 @@ public class CreateOperation extends AbstractOperation implements MusicLibraryOp
     if (this.getUserId(un) != -1) {
       System.out.println("That username is taken.");
       this.createUser();
+    } else if (!un.matches("^[a-zA-Z0-9]*$")) {
+      System.out.println("Username must be alphanumeric.");
+      this.createUser();
     } else {
       String prepCall = "CALL add_user(?)";
       PreparedStatement addUserStatement = conn.prepareStatement(prepCall);
@@ -156,19 +158,5 @@ public class CreateOperation extends AbstractOperation implements MusicLibraryOp
       addUserStatement.executeQuery();
       System.out.println("Added " + un + " to the database.");
     }
-  }
-
-  /**
-   * Checks if the given string is a number.
-   * @param check the string to check.
-   * @return is the string a number?
-   */
-  private boolean isNumber(String check) {
-    try {
-      Integer.parseInt(check);
-    } catch (NumberFormatException e) {
-      return false;
-    }
-    return true;
   }
 }

@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UnlikeOperation extends AbstractOperation implements MusicLibraryOperation {
@@ -42,7 +41,7 @@ public class UnlikeOperation extends AbstractOperation implements MusicLibraryOp
 
       if (unlikeSongForUser(userId, title, artist)) {
         System.out.println("Successfully removed song " + title + " by " + artist + " from "
-                + this.args[1] +"'s liked songs");
+                + this.args[1] + "'s liked songs");
       } else {
         System.out.println("Unable to unlike song " + title + ". User does not like that song.");
       }
@@ -57,8 +56,9 @@ public class UnlikeOperation extends AbstractOperation implements MusicLibraryOp
 
   /**
    * Removes a the given song from the given user's liked songs
+   *
    * @param userId the user liking the song
-   * @param title the song to like
+   * @param title  the song to like
    * @param artist the artist
    * @return if the song successfully unliked
    * @throws SQLException if problems occurred when interacting with the database
@@ -77,10 +77,12 @@ public class UnlikeOperation extends AbstractOperation implements MusicLibraryOp
     unlikeSongStatement.executeQuery();
     return true;
   }
+
   /**
    * Does the user like the given song?
+   *
    * @param userId the user to check
-   * @param song the song to check
+   * @param song   the song to check
    * @param artist the artist the song is by
    * @return does the user like this song
    */

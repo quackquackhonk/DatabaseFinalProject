@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LikeOperation extends AbstractOperation implements MusicLibraryOperation {
@@ -41,7 +40,7 @@ public class LikeOperation extends AbstractOperation implements MusicLibraryOper
 
       if (likeSongForUser(userId, title, artist)) {
         System.out.println("Successfully added song " + title + " by " + artist + " to "
-                + this.args[1] +"'s liked songs");
+                + this.args[1] + "'s liked songs");
       } else {
         System.out.println("Unable to add song " + title + ". User already likes that song.");
       }
@@ -53,8 +52,9 @@ public class LikeOperation extends AbstractOperation implements MusicLibraryOper
 
   /**
    * Adds a the given song to the given user's liked songs
+   *
    * @param userId the user liking the song
-   * @param song the song to like
+   * @param song   the song to like
    * @param artist the artist who wrote the song.
    * @return if the song successfully liked
    */
@@ -77,8 +77,9 @@ public class LikeOperation extends AbstractOperation implements MusicLibraryOper
 
   /**
    * Does the user like the given song?
+   *
    * @param userId the user to check
-   * @param song the song to check
+   * @param song   the song to check
    * @param artist the artist the song is by
    * @return does the user like this song
    */

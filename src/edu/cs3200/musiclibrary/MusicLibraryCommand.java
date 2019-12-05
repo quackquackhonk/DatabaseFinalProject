@@ -1,7 +1,5 @@
 package edu.cs3200.musiclibrary;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
-
 public enum MusicLibraryCommand {
   // TODO: colors would be fun
   ADD("add"), REMOVE("remove"), UPDATE("update"),
@@ -12,6 +10,7 @@ public enum MusicLibraryCommand {
 
   /**
    * Constructor for this enum.
+   *
    * @param cmd the command for the enum.
    */
   MusicLibraryCommand(String cmd) {
@@ -20,6 +19,7 @@ public enum MusicLibraryCommand {
 
   /**
    * Get the command line input for this enum.
+   *
    * @return this.cmd
    */
   public String getCmd() {
@@ -28,6 +28,7 @@ public enum MusicLibraryCommand {
 
   /**
    * determines if the given string is a valid command line command.
+   *
    * @param s the string to check.
    * @return is s a valid command line command.
    */
@@ -43,6 +44,7 @@ public enum MusicLibraryCommand {
 
   /**
    * Returns the correct MusicLibraryCommand given the String prefix
+   *
    * @param pre the command-line prefix
    * @return a MusicLibraryCommand, null if the prefix is invalid.
    */
