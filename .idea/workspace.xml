@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="099e9f50-8193-4362-b136-95b3e9c867ba" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/MusicLibrary.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/MusicLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/MusicLibrary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/AbstractOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/AbstractOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/MusicLibraryCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/MusicLibraryCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/AddOperation.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/DeleteOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/DeleteOperation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/ShowOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/ShowOperation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/UpdateOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/UpdateOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/cs3200/musiclibrary/operations/RemoveOperation.java" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,13 +30,17 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1U25UOJInKEV07lbN1SNSUbKZdl" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../HW8/mysql-connector-java-8.0.18.jar!/" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -82,7 +88,7 @@
       <workItem from="1575315636301" duration="11000" />
       <workItem from="1575324580250" duration="320000" />
       <workItem from="1575398837467" duration="10000" />
-      <workItem from="1575486941980" duration="23765000" />
+      <workItem from="1575486941980" duration="25791000" />
     </task>
     <task id="LOCAL-00001" summary="added .gitignore">
       <created>1574543029769</created>
@@ -161,7 +167,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575510680661</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Added update functionality">
+      <created>1575515784804</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1575515784804</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -181,6 +194,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="added .gitignore" />
     <MESSAGE value="updated .gitignore" />
     <MESSAGE value="Created the basic framework for running the program" />
@@ -192,6 +206,7 @@
     <MESSAGE value="Added ability to add users to the database" />
     <MESSAGE value="Finished create functionality and abstracted common functions" />
     <MESSAGE value="Finished delete functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished delete functionality" />
+    <MESSAGE value="Added update functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added update functionality" />
   </component>
 </project>

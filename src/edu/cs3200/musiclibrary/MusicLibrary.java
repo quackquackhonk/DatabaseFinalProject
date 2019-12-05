@@ -6,12 +6,10 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Scanner;
 
-import edu.cs3200.musiclibrary.operations.AddOperation;
 import edu.cs3200.musiclibrary.operations.CreateOperation;
 import edu.cs3200.musiclibrary.operations.DeleteOperation;
 import edu.cs3200.musiclibrary.operations.LikeOperation;
 import edu.cs3200.musiclibrary.operations.MusicLibraryOperation;
-import edu.cs3200.musiclibrary.operations.RemoveOperation;
 import edu.cs3200.musiclibrary.operations.ShowOperation;
 import edu.cs3200.musiclibrary.operations.UnlikeOperation;
 import edu.cs3200.musiclibrary.operations.UpdateOperation;
@@ -134,12 +132,6 @@ public class MusicLibrary {
       return;
     }
     switch (MusicLibraryCommand.commandFromPrefix(prefix)) {
-      case ADD:
-        op = new AddOperation(command, conn, scan);
-        break;
-      case REMOVE:
-        op = new RemoveOperation(command, conn);
-        break;
       case UPDATE:
         op = new UpdateOperation(command, conn, scan);
         break;
